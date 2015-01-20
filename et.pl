@@ -17,11 +17,9 @@ foreach my $item (@emails){
 
 my $webex = param('webex');
 
-foreach my $email (@emails){
-	if($webex eq 'on'){
-		print "webex is ".$webex;
-		
+if ($webex eq 'on'){
+	foreach my $email (@emails){
 	}
-
+}
 
 print end_html;
