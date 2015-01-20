@@ -5,6 +5,6 @@ use strict;
 
 use lib 'webex';
 
-use DeactivateUser qw/deactivate/;
+use Webex qw/deactivate/;
 
 print &deactivate("djanbaz");
