@@ -4,21 +4,41 @@ use warnings;
 use strict;
 use CGI qw/:standard/;
 use CGI::Carp qw/fatalsToBrowser/;
+use File::stat;
+
+use lib 'webex';
+
+use Webex qw/deactivate list/;
 
 print header;
 print start_html;
-my $emails = param('emails');
 
-my @emails = split(/\n/,$emails);
-foreach my $item (@emails){
-	chomp($item);
-	print "$item<br>";
-}
+my $emails = param('emails');
+my @emails = split(/\s*\n/,$emails);
 
 my $webex = param('webex');
 
 if ($webex eq 'on'){
+
+	if(-e 'webex.db'){
+		my $ts = stat('webex.db')->mtime;
+		if(time - $ts < 3600){
+			print "webex.db was generated < 1hr ago, using cache<br>";
+		}else{
+			print "webex.db > 1hr old, regenerating...<br>";
+			&list;
+		}
+	}else{
+		print "webex.db doesn't exist, regenerating...<br>";
+		&list;
+	}
+
+	my %webex_db = do 'webex.db';
+
 	foreach my $email (@emails){
+		chomp($email);
+		print "deactivating $email: ".&deactivate($webex_db{$email});
+		print "<br>";
 	}
 }
 

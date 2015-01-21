@@ -13,6 +13,9 @@ use Data::Dumper;
 
 my %config = do '/secret/employee_termination.config';
 
+open(OUTPUT, '>', 'webex.db') or die "couldnt open webex.db $!";
+
+
 my $start_from = 1;
 my $max=10;
 
@@ -108,19 +111,25 @@ ENDOFXML
 	$xmlparse = XMLin($res->content, ForceArray => 0, KeyAttr => {},);
 	$users = $xmlparse->{'serv:body'}->{'serv:bodyContent'}->{'use:user'};
 
+	#print everything
+#	foreach my $item (@$users){
+#		print $n++."------------\n";
+#		foreach my $key (sort keys %$item){
+#			print "$key $$item{$key}\n";
+#		}
+#	}
+
 	foreach my $item (@$users){
-		print $n++."------------\n";
-		foreach my $key (sort keys %$item){
-			print "$key $$item{$key}\n";
-		}
+		print OUTPUT "\'$$item{'use:email'}\' => \'$$item{'use:webExId'}\'\,\n";
 	}
+
 
 	print $res->status_line;
 
 	$remaining_records -= 500;
 }
 
-
+close(OUTPUT);
 
 
 
