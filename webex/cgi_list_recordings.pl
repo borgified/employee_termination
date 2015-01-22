@@ -113,10 +113,15 @@ ENDOFXML
 my @keys = reverse sort { $db{$a} <=> $db{$b} } keys(%db);
 my @vals = @db{@keys};
 
+use CGI qw/:standard/;
+
+print header,start_html;
+print "<pre>";
 foreach my $key (@keys){
 	print "$key $db{$key}\n";
 }
-
+print "</pre>";
+print end_html;
 
 
 #print Dumper($xmlparse);
