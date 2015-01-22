@@ -14,7 +14,7 @@ print header;
 print start_html;
 
 my $emails = param('emails');
-my @emails = split(/\s*\n/,$emails);
+my @emails = split(/\n/,$emails);
 
 my $webex = param('webex');
 
@@ -36,7 +36,8 @@ if ($webex eq 'on'){
 	my %webex_db = do 'webex.db';
 
 	foreach my $email (@emails){
-		chomp($email);
+		$email =~ s/\s+//g;
+		next if($email eq '');
 		print "deactivating $email: ".&deactivate($webex_db{$email});
 		print "<br>";
 	}

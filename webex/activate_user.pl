@@ -15,7 +15,8 @@ my %config = do '/secret/employee_termination.config';
 
 my $start_from = 1;
 my $max=10;
-
+#alex.chan
+#djanbaz
 my $sendXML = << "ENDOFXML";
 <?xml version="1.0" encoding="UTF-8"?>
 <serv:message xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:serv="http://www.webex.com/schemas/2002/06/service">
