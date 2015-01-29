@@ -9,8 +9,8 @@ use File::stat;
 use lib 'webex';
 use lib 'yammer';
 
-use Webex qw/deactivate list/;
-use Yammer qw/deactivate list/;
+use Webex;
+use Yammer;
 
 print header;
 print start_html;
@@ -47,18 +47,26 @@ if ((defined($webex)) && $webex eq 'on'){
 }
 
 if((defined($yammer)) && $yammer eq 'on'){
-	if(-e 'yammer.db'){
-		my $ts = stat('yammer.db')->mtime;
-		if(time - $ts < 3600){
-			print "yammer.db was generated < 1hr ago, using cache<br>";
-		}else{
-			print "yammer.db > 1hr old, regenerating...<br>";
-			Yammer::list;
-		}
-	}else{
-		print "yammer.db doesn't exist, regenerating...<br>";
-		Yammer::list;
+
+	#does our token work?
+	my $token_access = Yammer::test_token;
+	if($token_access eq '401 Unauthorized'){
+		print "invalid or expired yammer token, obtain a new token";
 	}
+
+
+#	if(-e 'yammer.db'){
+#		my $ts = stat('yammer.db')->mtime;
+#		if(time - $ts < 3600){
+#			print "yammer.db was generated < 1hr ago, using cache<br>";
+#		}else{
+#			print "yammer.db > 1hr old, regenerating...<br>";
+#			Yammer::list;
+#		}
+#	}else{
+#		print "yammer.db doesn't exist, regenerating...<br>";
+#		Yammer::list;
+#	}
 }
 
 
