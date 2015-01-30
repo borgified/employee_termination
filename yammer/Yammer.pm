@@ -57,6 +57,20 @@ sub get_token {
 
 
 sub deactivate {
+
+	my $id = shift;
+
+	my $uri = "https://www.yammer.com/api/v1/users/$id.json";
+
+	my $ua = LWP::UserAgent->new;
+	my $req = HTTP::Request->new(DELETE => $uri);
+
+	$req->header('Authorization' => 'Bearer '. $config{'token'});
+
+	my $res = $ua->request($req);
+
+	return $res->status_line;
+
 }
 
 sub list{
@@ -80,7 +94,7 @@ sub list{
 		my $content = JSON->new->decode($res->content);
 
 		foreach my $item (@$content){
-			print OUTPUT "\'$item->{email}\' => \'$item->{id}\'\n";
+			print OUTPUT "\'$item->{email}\' => \'$item->{id}\'\,\n";
 		}
 
 		$page++;
