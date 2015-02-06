@@ -37,11 +37,15 @@ sub deactivate{
 		return $output;
 	}
 
-	my $capture = $ssh->capture("/usr/lib/nagios/plugins/check_nrpe -H $config{lync_server} -c disable_lync_user -a $email");
+	my $capture = $ssh->capture({timeout => 20},"/usr/lib/nagios/plugins/check_nrpe -H $config{lync_server} -c disable_lync_user -a $email");
 
 	if($capture =~ /Management object not found/){
-		$output = "user not found<br>";
+		$output = "user not found";
+	}elsif($capture =~ /No output available from command/){
+		#if theres no output, it means it ran successfully
+		$output = "deactivated";
 	}else{
+		#not sure what happened but ill show you the capture for debugging
 		$output = $capture;
 	}
 
