@@ -14,7 +14,8 @@ accounts are identified by their respective email
 
 * webex
 * yammer
-* lync (in progress)
+* lync
+* M$ active directory (soon)
 
 
 todo
