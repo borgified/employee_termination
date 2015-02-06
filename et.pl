@@ -45,8 +45,11 @@ if ((defined($webex)) && $webex eq 'on'){
 		$email =~ s/\s+//g;
 		next if($email eq '');
 		$email=lc($email);
-		print "deactivating ".$email.": ".Webex::deactivate($webex_db{$email});
-		print "<br>";
+		if(!exists($webex_db{$email})){
+			print "$email does not have a webex account<br>";
+		}else{
+			print "deactivating ".$email.": ".Webex::deactivate($webex_db{$email})."<br>";
+		}
 	}
 }
 
