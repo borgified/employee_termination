@@ -39,14 +39,12 @@ sub deactivate{
 
 	my $capture = $ssh->capture({timeout => 20},"/usr/lib/nagios/plugins/check_nrpe -H $config{AD_server} -c disable_AD_user -a $email");
 
-	if($capture =~ /Management object not found/){
-		$output = "user not found";
-	}elsif($capture =~ /No output available from command/){
+	if($capture =~ /OU=TermedUsers/){
 		#if theres no output, it means it ran successfully
 		$output = "deactivated";
 	}else{
 		#not sure what happened but ill show you the capture for debugging
-		$output = $capture;
+		$output = "UNABLE to find this user";
 	}
 
 

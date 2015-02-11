@@ -9,10 +9,12 @@ use File::stat;
 use lib 'webex';
 use lib 'yammer';
 use lib 'lync';
+use lib 'AD';
 
 use Webex;
 use Yammer;
 use Lync;
+use AD;
 
 print header;
 print start_html;
@@ -23,6 +25,7 @@ my @emails = split(/\n/,$emails);
 my $webex = param('webex');
 my $yammer = param('yammer');
 my $lync = param('lync');
+my $ad = param('AD');
 
 if ((defined($webex)) && $webex eq 'on'){
 
@@ -104,6 +107,22 @@ if((defined($lync)) && $lync eq 'on'){
 		print "deactivating ".$email.": ".Lync::deactivate($email),"<br>";
 	}
 }
+
+
+if((defined($ad)) && $ad eq 'on'){
+
+	print "AD accounts:<br>";
+
+	foreach my $email (@emails){
+		$email =~ s/\s+//g;
+		$email = lc($email);
+
+		next if($email eq '');
+
+		print "deactivating ".$email.": ".AD::deactivate($email),"<br>";
+	}
+}
+
 
 END:
 print end_html;
