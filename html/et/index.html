@@ -1,0 +1,24 @@
+<html>
+<h2>employee termination portal</h2>
+
+<form method="POST" action="/cgi-bin/et/et.pl">
+employees are identified by their email, enter one per line:<br>
+<textarea name="emails" rows="5" cols="40"></textarea>
+<br>
+<br>
+pick what services to deactivate:<br>
+<input type="checkbox" name="webex">webex</input>
+<input type="checkbox" name="yammer">yammer</input>
+<input type="checkbox" name="lync">lync</input>
+<input type="checkbox" name="AD">AD</input>
+<br>
+<br>
+<input type="submit">
+</form>
+
+<hr>
+if you have issues authenticating to the services above, you can attempt to fix with the buttons below
+<form method="POST" action="/cgi-bin/et/yammer/get_token.pl" target="_new">
+	<input type="submit" value="obtain new yammer token">
+</form>
+</html>
